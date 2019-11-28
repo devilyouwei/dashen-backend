@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+        </script>
+        {load href="__CSS__/ch-ui.admin.css"/}
+        {load href="__CSS__/font/css/font-awesome.min.css"/}
+        {load href="__JS__/jquery.js"/}
+        {load href="__JS__/jquery.validate.min.js"/}
+        {load href="__JS__/messages_zh.js"/}
+        {load href="__JS__/ch-ui.admin.js"/}
+        <script>
+            $(function(){
+                $("#login_form").validate();
+            })
+        </script>
+        <style>
+            .error{
+                color:red;
+            }
+        </style>
+    </head>
+    <body style="background:#F3F3F4;">
+        <div class="login_box">
+            <h1>呀哦众帮</h1>
+            <h2>欢迎管理员</h2>
+            <div class="form">
+                <form id="login_form" action="__ROOT__/Index/login" method="post">
+                    <ul>
+                        <li>
+                            <input type="text" name="username" class="text" minlength="4" required/>
+                            <span><i class="fa fa-user"></i></span>
+                        </li>
+                        <li>
+                            <input type="password" name="password" class="text" minlength="6" required/>
+                            <span><i class="fa fa-lock"></i></span>
+                        </li>
+                        <li>
+                            <script>
+                                $(document).ready(function () {
+                                    $("#change").click(function () {
+
+                                        $("img[alt='captcha']").attr("src","/public/captcha.html?a="+Math.random());
+
+                                    })
+                                })
+
+                            </script>
+                            <div id="change"><{:captcha_img()}></div>
+                            <input type="text" class="code" name="captcha"/>
+                            <p id="change2">看不清点击图片换一张！</p>
+                        </li>
+                        <li>
+                            <input type="submit" value="立即登陆"/>
+                        </li>
+                    </ul>
+                </form>
+                <p><a href="#">返回首页</a> &copy; 2017 Powered by <a href="#" target="_blank">众帮开发组</a></p>
+            </div>
+        </div>
+    </body>
+</html>
+

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh_CN" id="error">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>注册</title>
+		{load href="__CSS__/mui.min.css"} {load href="__CSS__/wap/style.css"} {load href="__JS__/mui.min.js"} {load href="__JS__/admin/jquery.js"}
+		<style>
+			form {
+				margin-top: 30px;
+			}
+			
+			.mui-btn-row {
+				padding: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav"></span>返回
+				</button>
+			<h1 class="mui-title">注册资料</h1>
+		</header>
+		<div class="mui-content">
+			<h2 class="mui-content-padded">第二步：填写个人信息</h2>
+			<form class="mui-input-group" name="intro_form" id="intro_form">
+
+				<div class="mui-input-row">
+					<label class="text-gray">账号</label>
+					<input type="text" name='user_name' placeholder="输入一个用户名" class="mui-input-clear" />
+				</div>
+
+				<div class="mui-input-row">
+					<label>性别</label>
+					<select name="sex">
+						<option value="男" selected>男</option>
+						<option value="女">女</option>
+					</select>
+				</div>
+				<!--
+				<div class="mui-input-row">
+					<label class="text-gray">身份</label>
+					<input type="text" name='actor' placeholder="请务必填写真实身份" class="mui-input-clear" />
+				</div>
+				<div class="mui-input-row">
+					<label class="text-gray">真实姓名</label>
+					<input type="text" name='real_name' placeholder="请务必填写真实姓名" class="mui-input-clear" />
+				</div>
+
+				<div class="mui-table-view-divider"></div>
+
+				<div class="mui-input-row">
+					<label class="text-gray">邮箱</label>
+					<input type="text" name='email' class="mui-input-clear" />
+				</div>
+				<div class="mui-input-row">
+					<label class="text-gray">QQ号</label>
+					<input type="text" name='qq' class="mui-input-clear" />
+				</div>
+				<div class="mui-input-row">
+					<label class="text-gray">微信</label>
+					<input type="text" name='weixin' class="mui-input-clear" />
+				</div>
+				-->
+
+				<div class="mui-table-view-divider"></div>
+				<div class="mui-input-row">
+					<label class="text-gray">密码</label>
+					<input type="password" class="mui-input-password" name='password' placeholder="设置一个密码，至少6位" />
+				</div>
+				<div class="mui-input-row">
+					<label class="text-gray">确认密码</label>
+					<input type="password" class="mui-input-password" name='repassword' placeholder="二次验证密码" />
+				</div>
+
+				<div class="mui-btn-row">
+					<button class="mui-btn mui-btn-block mui-btn-primary">下一步</button>
+				</div>
+			</form>
+
+			<p class="mui-content-padded">众帮微信发单，最多仅需三步，发布需求</p>
+		</div>
+		<div class="mui-footer">
+			<p>Copyright © 2017 呀哦服务 All Rights Reserved.</p>
+		</div>
+		<script>
+			mui.init();
+
+			$(function() {
+				$("#intro_form").submit(function() {
+					var user_name = $.trim($("input[name=user_name]").val());
+					var sex = $.trim($("select[name=sex]").val());
+					//var actor = $.trim($("input[name=actor]").val());
+					//var real_name = $.trim($("input[name=real_name]").val());
+					//var email = $.trim($("input[name=email]").val());
+					//var qq = $.trim($("input[name=qq]").val());
+					var password = $.trim($("input[name=password]").val());
+					var repassword = $.trim($("input[name=repassword]").val());
+
+					//表单验证
+					if(user_name == "") {
+						mui.toast("用户名不得为空");
+						return false;
+					}
+					if(user_name.length < 2) {
+						mui.toast("用户名太短");
+						return false;
+					}
+					if(user_name.length > 8) {
+						mui.toast("用户名太长");
+						return false;
+					}
+					/*
+					if(actor == "") {
+						mui.toast("身份不得为空");
+						return false;
+					}
+					if(real_name == "") {
+						mui.toast("真实姓名不得为空");
+						return false;
+					}
+					*/
+					if(password == "") {
+						mui.toast("密码不得为空，下次发单直接使用");
+						return false;
+					}
+					if(password.length < 6) {
+						mui.toast("密码不得小于6位！");
+						return false;
+					}
+					if(repassword != password) {
+						mui.toast("两次密码不同！");
+						return false;
+					}
+
+					//请求登陆
+					mui.ajax("__ROOT__/wap/Wx/reg", {
+						data: {
+							user_name: user_name,
+							sex: sex,
+							//actor: actor,
+							//real_name: real_name,
+							//email: email,
+							//qq: qq,
+							password: password
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 5000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(res) {
+							if(res.status == 1) {
+								mui.openWindow({
+									url: "__ROOT__/wap/Wx/ques",
+								});
+							} else {
+								mui.toast(res.info);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							mui.toast("网络错误，请重试！");
+							//error.innerHTML=xhr.response;
+						}
+					});
+
+					return false;
+				});
+			});
+
+			/*
+			function vEmail(email) {
+				var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+				return(reg.test(email))
+			}
+
+			function vQQ(qq) {
+				var reg = /^[1-9][0-9]{4,9}$/;
+				return reg.test(qq);
+			}
+			*/
+		</script>
+	</body>
+
+</html>

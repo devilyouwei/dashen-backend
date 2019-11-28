@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    {load href="__CSS__/ch-ui.admin.css"/}
+    {load href="__CSS__/font/css/font-awesome.min.css"/}
+    {load href="__JS__/jquery.js"/}
+    {load href="__JS__/jquery.validate.min.js"/}
+    {load href="__JS__/messages_zh.js"/}
+    {load href="__JS__/ch-ui.admin.js"/}
+</head>
+<body>
+<!--面包屑导航 开始-->
+<div class="crumb_warp">
+    <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
+    <i class="fa fa-home"></i> <a href="#">首页</a> &raquo; <a href="#">分类管理</a> &raquo; 添加分类
+</div>
+<!--面包屑导航 结束-->
+
+<!--结果集标题与导航组件 开始-->
+<!--<div class="result_wrap">-->
+<!--<div class="result_title">-->
+<!--<h3>快捷操作</h3>-->
+<!--</div>-->
+<!--<div class="result_content">-->
+<!--<div class="short_wrap">-->
+<!--<a href="#"><i class="fa fa-plus"></i>新增分类</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--结果集标题与导航组件 结束-->
+<div class="result_wrap">
+    <form action="__ROOT__/Ques/doupdate" method="post">
+
+        <table class="add_tab">
+            <tbody>
+            <tr>
+                <th width="120"><i class="require">*</i>需求编号</th>
+                <td>
+                    <input type="text" name="id" value='<{$d.id}>' readonly/>
+                </td>
+            </tr>
+            <tr>
+                <th><i class="require">类别</i></th>
+                <td>
+                    <span><{$d.title}></span>
+                </td>
+            </tr>
+
+            <tr>
+                <th><i class="require">*</i>悬赏金额</th>
+                <td>
+                    <input type="text" class="sm" name="price" value="<{$d.price}>"/>元
+                </td>
+            </tr>
+            <tr>
+                <th><i class="require">*</i>发布人</th>
+                <td>
+                    <span><{$d.user_name}></span>
+                </td>
+            </tr>
+            <tr>
+                <th><i class="require">需求正文</i></th>
+                <td>
+                    <textarea name="content" style="height:100px;"><{$d.content}></textarea>
+
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input type="submit" value="提交">
+                    <input type="button" class="back" onclick="history.go(-1)" value="返回">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>

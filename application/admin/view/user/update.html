@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    {load href="__CSS__/ch-ui.admin.css"/}
+    {load href="__CSS__/font/css/font-awesome.min.css"/}
+    {load href="__JS__/jquery.js"/}
+    {load href="__JS__/jquery.validate.min.js"/}
+    {load href="__JS__/messages_zh.js"/}
+    {load href="__JS__/ch-ui.admin.js"/}
+</head>
+<body>
+<!--面包屑导航 开始-->
+<div class="crumb_warp">
+    <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
+    <i class="fa fa-home"></i> <a href="#">首页</a> &raquo; <a href="#">分类管理</a> &raquo; 添加分类
+</div>
+<!--面包屑导航 结束-->
+
+<!--结果集标题与导航组件 开始-->
+<!--<div class="result_wrap">-->
+<!--<div class="result_title">-->
+<!--<h3>快捷操作</h3>-->
+<!--</div>-->
+<!--<div class="result_content">-->
+<!--<div class="short_wrap">-->
+<!--<a href="#"><i class="fa fa-plus"></i>新增分类</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--结果集标题与导航组件 结束-->
+<div class="result_wrap">
+    <form action="__ROOT__/User/doupdate" method="post">
+
+        <table class="add_tab">
+            <tbody>
+            <tr>
+                <th width="120"><i class="require">*</i>用户名</th>
+                <td>
+                    <input type="hidden" name="id" value='<{$d.id}>'/>
+                    <input type="text" class="sm" name="user_name" value='<{$d.user_name}>'/>
+                </td>
+            </tr>
+            <tr>
+                <th><i class="require">性别</i></th>
+                <td>
+                    <select name="sex" value="<{$d.sex}>">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>身份</th>
+                <td>
+                    <input type="text" class="sm" name="actor" value='<{$d.actor}>'/>
+                </td>
+            </tr>
+            <tr>
+                <th><i class="require">*</i>姓名</th>
+                <td>
+                    <input type="text" class="sm" name="real_name" value='<{$d.real_name}>'/>
+                </td>
+            </tr>
+            <tr>
+                <th><i class="require">*</i>电话</th>
+                <td>
+                    <input type="text" class="sm" name="phone" value='<{$d.phone}>'/>
+                </td>
+            </tr>
+            <tr>
+                <th><i class="require">*</i>qq</th>
+                <td>
+                    <input type="text" class="sm" name="qq" value='<{$d.qq}>'/>
+                </td>
+            </tr>
+            <tr>
+                <th><i class="require">*</i>微信</th>
+                <td>
+                    <input type="text" class="sm" name="weixin" value='<{$d.weixin}>'/>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <input type="submit" value="提交">
+                    <input type="button" class="back" onclick="history.go(-1)" value="返回">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html id="error">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>呀哦服务</title>
+		{load href="__CSS__/mui.min.css"} {load href="__CSS__/wap/style.css"} {load href="__JS__/admin/jquery.js"} {load href="__JS__/mui.min.js"} {load href="__JS__/vue.min.js"} {load href="__JS__/app.js"}
+		<style>
+			.user_info {
+				background: #fff;
+				margin-bottom: 10px;
+			}
+			
+			.head_img {
+				margin-top: 20px;
+				border: solid 3px #2187E7;
+				border-radius: 10em;
+				width: 4em;
+				height: 4em;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">会员中心</h1>
+			<a href="__ROOT__/wap/Wx/ques" class="mui-icon mui-icon-plus mui-pull-right"></a>
+		</header>
+		<div class="mui-content">
+			<div class="user_info">
+				<div class="mui-text-center">
+					<img class="head_img" src="{$user.my_icon}" alt="" />
+				</div>
+				<ul class="mui-table-view mui-grid-view mui-margin-top-sm">
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<span class="">{$user.count_que}</span>
+							<div class="mui-media-body">需求</div>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<span class="">{$user.money}元</span>
+							<div class="mui-media-body">余额</div>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<span class="">0</span>
+							<div class="mui-media-body">积分</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="mui-card">
+
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" href="__ROOT__/wap/Wx/listQues">
+							历史发单
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" href="__ROOT__/wap/Wx/ques">
+							立即发单
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="mui-card">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" href="__ROOT__/wap/Wx/personal">
+							个人信息
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" href="tel:114">
+							联系客服
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" id="logout">
+							退出账户
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			mui.init();
+
+			$("#logout").on("tap", function() {
+				mui.confirm("退出呀哦服务？", "退出", ["取消", "确认"], function(e) {
+					if(e.index == 1) {
+						location.href = "__ROOT__/wap/Wx/logout";
+					}
+					return;
+				});
+			});
+		</script>
+	</body>
+
+</html>

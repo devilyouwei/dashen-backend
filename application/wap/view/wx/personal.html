@@ -1,0 +1,114 @@
+<!doctype html>
+<html id="error">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>呀哦服务</title>
+		{load href="__CSS__/mui.min.css"} {load href="__CSS__/wap/style.css"} {load href="__JS__/admin/jquery.js"} {load href="__JS__/mui.min.js"} {load href="__JS__/vue.min.js"} {load href="__JS__/app.js"}
+		<style>
+			.user_info {
+				background: #fff;
+				margin-bottom: 10px;
+			}
+			
+			.head_img {
+				margin-top: 20px;
+				border: solid 3px #2187E7;
+				border-radius: 10em;
+				width: 4em;
+				height: 4em;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+	    		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的信息</h1>
+		</header>
+		<div class="mui-content">
+			<div class="user_info">
+				<div class="mui-text-center">
+					<img class="head_img" src="{$user.my_icon}" alt="" />
+				</div>
+				<div class="mui-content-padded">
+					<ul class="mui-table-view mui-table-view-chevron">
+						<li class="mui-table-view-cell">
+							<div class="mui-row">
+								<div class="mui-col-xs-4 text-gray">用户名</div>
+								<div class="mui-col-xs-8" id="user_name">{$user.user_name}</div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="mui-row">
+								<div class="mui-col-xs-4 text-gray">生日</div>
+								<div class="mui-col-xs-8" id="birth">{$user.birth}</div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="mui-row">
+								<div class="mui-col-xs-4 text-gray">性别</div>
+								<div class="mui-col-xs-8" id="sex">{$user.sex}</div>
+							</div>
+						</li>
+
+						<li class="mui-table-view-cell">
+							<div class="mui-row">
+								<div class="mui-col-xs-4 text-gray">所在地</div>
+								<div class="mui-col-xs-8 mui-row" id="location">
+									<div class="mui-col-xs-4" id="province">{$user.province}</div>
+									<div class="mui-col-xs-4" id="city">{$user.city}</div>
+									<div class="mui-col-xs-4" id="county">{$user.county}</div>
+								</div>
+							</div>
+						</li>
+
+						<li class="mui-table-view-cell">
+							<div class="mui-row">
+								<div class="mui-col-xs-4 text-gray">身份</div>
+								<div class="mui-col-xs-8" id="actor">{$user.actor}</div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="mui-row">
+								<div class="mui-col-xs-4 text-gray">姓名</div>
+								<div class="mui-col-xs-8" id="real_name">{$user.real_name}</div>
+							</div>
+						</li>
+						<li class="mui-table-view-divider"></li>
+						<li class="mui-table-view-cell">
+							<div class="mui-row">
+								<div class="mui-col-xs-4 text-gray">邮箱</div>
+								<div class="mui-col-xs-8" id="email">{$user.email}</div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="mui-row">
+								<div class="mui-col-xs-4 text-gray">电话</div>
+								<div class="mui-col-xs-8" id="phone">{$user.phone}</div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="mui-row">
+								<div class="mui-col-xs-4 text-gray">QQ号</div>
+								<div class="mui-col-xs-8" id="qq">{$user.qq}</div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell">
+							<div class="mui-row">
+								<div class="mui-col-xs-4 text-gray">微信</div>
+								<div class="mui-col-xs-8" id="weixin">{$user.weixin}</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			mui.init();
+		</script>
+	</body>
+
+</html>

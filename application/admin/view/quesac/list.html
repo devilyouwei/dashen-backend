@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    {load href="__CSS__/ch-ui.admin.css"/}
+    {load href="__CSS__/font/css/font-awesome.min.css"/}
+    {load href="__JS__/jquery.js"/}
+    {load href="__JS__/jquery.validate.min.js"/}
+    {load href="__JS__/messages_zh.js"/}
+    {load href="__JS__/ch-ui.admin.js"/}
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--面包屑导航 开始-->
+<div class="crumb_warp">
+    <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
+    <i class="fa fa-home"></i> <a href="#">首页</a> &raquo; <a href="#">订单管理</a> &raquo; 浏览订单
+</div>
+<!--面包屑导航 结束-->
+<div class="search_wrap">
+    <form action="__ROOT__/Quesac/search" method="POST">
+        <table class="search_tab">
+            <tr>
+                <th width="70">关键字:</th>
+                <td><input type="text" name="keyword" placeholder="关键字"/></td>
+                <td>
+
+                    <select name="state">
+                        <option value="1"
+                                {if condition="$state eq 1"}
+                                selected="selected"
+                                {/if}
+                        >进行中</option>
+                        <option value="2"
+                                {if condition="$state eq 2"}
+                                selected="selected"
+                                {/if}
+                        >已完成</option>
+                    </select>
+                </td>
+                <td><input type="submit" name="sub" value="查询" style="text-align: center; height: auto"/><br></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!--结果页快捷搜索框 结束-->
+
+<!--搜索结果页面 列表 开始-->
+
+<div class="result_wrap">
+    <!--快捷导航 开始-->
+
+    <!--快捷导航 结束-->
+</div>
+<div class="result_wrap">
+    <div class="result_content">
+        <table class="list_tab">
+            <tr>
+                <th class="tc">需求编号</th>
+                <th class="tc">分类名称</th>
+                <th>悬赏方式</th>
+                <th>悬赏金额</th>
+                <th>发布人</th>
+                <th>发布时间</th>
+                <th>订单状态</th>
+                <th>操作</th>
+            </tr>
+            {foreach $list as $a}
+            <tr>
+                <td class="tc"><{$a.id}></td>
+                <td class="tc"><{$a.title}></td>
+                <td><{$a.reward}></td>
+                <td><{$a.price}></td>
+                <td><{$a.user_name}></td>
+                <td><{$a.update_time|date="Y年m月d日 H:i:s",###}></td>
+                <td>
+                    {if condition="$a.state eq 0"}
+                    待接单
+                    {elseif condition="$a.state eq 1"/}
+                    进行中
+                    {elseif condition="$a.state eq 2"/}
+                    已完成
+                    {else/}
+                    {/if}
+                </td>
+                <td>
+                    <a href=""></a>
+                    <a href="javascript:0" data-toggle="modal" data-target="#<{$a.id}>">查看</a>
+                    <a href="__ROOT__/Ques/update/id/<{$a.id}>">编辑</a>
+                    <a href="__ROOT__/Ques/delete/id/<{$a.id}>" onclick="return confirm('确认删除需求吗')">删除</a>
+                </td>
+            </tr>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="<{$a.id}>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                查看
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4>接单方信息</h4>
+                            <span>用户名：<{$a.user_name}></span><br>
+                            <span>身份：<{$a.actor}></span><br>
+                            <span>电话：<{$a.phone}></span><br>
+                            <span>qq：<{$a.qq}></span><br>
+                            <span>微信：<{$a.weixin}></span><br>
+                            <span>邮箱：<{$a.email}></span><br>
+                            <hr>
+                            <h4>需求详情:</h4>
+                            <span>需求分类：<{$a.title}></span><br>
+                            <hr>
+                            <h5>需求正文：</h5>
+                            <p>
+                            <{$a.content}>
+                            </p>
+                            <br>
+							{if $a.img0} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/<{$a.img0}>" width="200px" height="100px"/> {/if}
+							{if $a.img1} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/<{$a.img1}>" width="200px" height="100px"/> {/if}
+							{if $a.img2} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/<{$a.img2}>" width="200px" height="100px"/> {/if}
+							{if $a.img3} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/<{$a.img3}>" width="200px" height="100px"/> {/if}
+							{if $a.img4} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/<{$a.img4}>" width="200px" height="100px"/> {/if}
+							{if $a.img5} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/<{$a.img5}>" width="200px" height="100px"/> {/if}
+							{if $a.img6} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/<{$a.img6}>" width="200px" height="100px"/> {/if}
+							{if $a.img7} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/<{$a.img7}>" width="200px" height="100px"/> {/if}
+                        </div>
+                        <div class="modal-footer">
+
+                            {if condition="$a.state eq 1"}
+                            <a href="__ROOT__/Quesac/finish/id/<{$a.id}>">
+                                <input type="button" class="btn btn-default" data-dismiss="modal" value="强制完成">
+                                </input>
+                            </a>
+                            {/if}
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+                {/foreach}
+        </table>
+        <div class="page_list">
+            <{$list->render()}>
+        </div>
+    </div>
+</div>
+<!--搜索结果页面 列表 结束-->
+</body>
+</html>

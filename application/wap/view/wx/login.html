@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>呀哦发单登录</title>
+		{load href="__CSS__/mui.min.css"} {load href="__JS__/mui.min.js"} {load href="__JS__/admin/jquery.js"} {load href="__CSS__/wap/style.css"}
+
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 22%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">微信登陆</h1>
+		</header>
+		<div class="mui-content">
+			<p class="mui-margin-vertical"></p>
+			<span class="progress"></span>
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row">
+					<label>手机</label>
+					<input id='phone' type="text" class="mui-input-clear" placeholder="请输入手机号">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id='user_pwd' type="password" class="mui-input-password" placeholder="请输入密码">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='login' data-loading-icon="mui-spinner mui-spinner-white" data-loading-text="登陆中" class="mui-btn mui-btn-block mui-btn-primary">登录</button>
+				<a href="__ROOT__/wap/Wx/" class="mui-pull-right">去注册</a>
+			</div>
+		</div>
+		<script>
+			mui.init();
+
+			//按钮
+			var loginButton = $('#login');
+			var phone = $('#phone');
+			var user_pwd = $('#user_pwd');
+
+			loginButton.on('tap', function(event) {
+				var loginInfo = {
+					phone: phone.val(),
+					user_pwd: user_pwd.val(),
+					os: "weixinOS",
+					network: ""
+				};
+
+				if(!checkPhone(loginInfo.phone)) {
+					mui.toast('请输入正确的手机号码');
+					return false;
+				}
+
+				if(loginInfo.user_pwd.length < 6) {
+					mui.toast('密码不少于6位');
+					return false;
+				}
+
+				//按钮显示为等待
+				var loadbtn = mui(this);
+				//请求注册号码
+				mui.ajax("__ROOT__/app/User/login", {
+					data: loginInfo,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					beforeSend: function() {
+						//请求登录
+						loadbtn.button("loading");
+					},
+					complete: function() {
+						loadbtn.button("reset");
+					},
+					success: function(res) {
+						if(res.status == 1) {
+							mui.openWindow({
+								url: "__ROOT__/wap/Wx/ques",
+							});
+						} else {
+							mui.toast(res.info);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						alert("网络错误，请检查网络！");
+					}
+				});
+			});
+
+			function checkPhone(phone) {
+				return(/^1[34578]\d{9}$/.test(phone));
+			}
+		</script>
+	</body>
+
+</html>

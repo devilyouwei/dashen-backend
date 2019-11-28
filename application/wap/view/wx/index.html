@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>呀哦登陆</title>
+		{load href="__CSS__/mui.min.css"} {load href="__CSS__/wap/style.css"} {load href="__JS__/mui.min.js"} {load href="__JS__/admin/jquery.js"}
+		<style>
+			form {
+				margin-top: 30px;
+			}
+			
+			.mui-footer {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+			}
+			
+			.mui-footer p {
+				text-align: center;
+				width: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">呀哦服务|微信</h1>
+		</header>
+		<div class="mui-content">
+			<h3 class="mui-content-padded">第一步：验证手机</h3>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>手机号</label>
+					<input id="phone" name="phone" type="text" placeholder="输入手机号码">
+				</div>
+				<div class="mui-input-row">
+					<label>验证码</label>
+					<input id="code" name="code" type="text" class="mui-input-clear" placeholder="输入验证码">
+				</div>
+
+				<div class="mui-button-row">
+					<button id="getCode" type="button" class="mui-btn mui-btn-primary" data-loading-text="发送中" onclick="return false;">获取验证码</button>&nbsp;&nbsp;
+					<button id="next" type="button" class="mui-btn mui-btn-danger" onclick="return false;">下一步</button>
+				</div>
+			</form>
+			<p class="mui-content-padded">
+				<a href="__ROOT__/wap/Wx/login">已有账号？带我去登陆</a>
+			</p>
+			<p class="mui-content-padded">呀哦服务微信发单，最少仅需三步，发布需求</p>
+		</div>
+		<div class="mui-footer">
+			<p>Copyright © 2017 呀哦服务 All Rights Reserved.</p>
+		</div>
+		<script>
+			mui.init();
+
+			document.getElementById("getCode").addEventListener("tap", function() {
+				var phone = $.trim($("#phone").val());
+				var load = mui(this);
+				if(phone == "") {
+					mui.toast("请输入手机号");
+					return false;
+				}
+				if(!checkPhone(phone)) {
+					mui.toast("手机号格式不正确");
+					return false;
+				}
+				//请求注册号码
+				mui.ajax("__ROOT__/app/User/getCode", {
+					data: {
+						phone: phone
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					beforeSend: function() {
+						load.button("loading");
+					},
+					complete: function() {
+						load.button("reset")
+					},
+					success: function(res) {
+						mui.toast(res.info);
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+					}
+				});
+			});
+			document.getElementById("next").addEventListener("tap", function() {
+				var code = $.trim($("#code").val());
+
+				if(code == "") {
+					mui.toast("请输入验证码");
+					return false;
+				}
+
+				//请求注册号码
+				mui.ajax("__ROOT__/wap/Wx/codePhone", {
+					data: {
+						code: code
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(res) {
+						if(res.status == 1) {
+							mui.openWindow({
+								url: "__ROOT__/wap/Wx/intro",
+								id: "intro",
+							});
+						} else {
+							mui.toast(res.info);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+					}
+				});
+			});
+
+			function checkPhone(phone) {
+				return(/^1[34578]\d{9}$/.test(phone));
+			}
+		</script>
+	</body>
+
+</html>

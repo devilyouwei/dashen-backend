@@ -1,0 +1,557 @@
+<!doctype html>
+<html id="error">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>发起需求单</title>
+		{load href="__CSS__/mui.min.css"} {load href="__CSS__/wap/style.css"} {load href="__JS__/admin/jquery.js"} {load href="__JS__/mui.min.js"} {load href="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"}
+		<style type="text/css">
+			body {
+				background-color: #EFEFF4;
+			}
+			
+			input,
+			textarea {
+				border: none !important;
+			}
+			
+			textarea {
+				height: 100px;
+				margin-bottom: 0 !important;
+				padding-bottom: 0 !important;
+			}
+			
+			.row {
+				width: 100%;
+				background-color: #fff;
+			}
+			
+			.hidden {
+				display: none;
+			}
+			
+			p {
+				padding: 10px 15px 0;
+			}
+			
+			input::-webkit-input-placeholder,
+			textarea::-webkit-input-placeholder {
+				font-size: 14px;
+			}
+			
+			.image-list {
+				padding-top: 10px;
+				padding-bottom: 5px;
+			}
+			
+			.image-item {
+				width: 70px;
+				height: 70px;
+				background-image: url('../images/iconfont-tianjia.png');
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 100% 100%;
+				display: inline-block;
+				position: relative;
+				border-radius: 5px;
+				margin-left: 8px;
+				border: solid 1px #e8e8e8;
+			}
+			
+			.image-item.space {
+				border: none;
+			}
+			
+			.image-item .image-close {
+				position: absolute;
+				display: inline-block;
+				right: -6px;
+				top: -6px;
+				width: 20px;
+				height: 20px;
+				text-align: center;
+				line-height: 20px;
+				border-radius: 12px;
+				background-color: #FF5053;
+				color: #f3f3f3;
+				border: solid 1px #FF5053;
+				font-size: 9px;
+				font-weight: 200;
+				z-index: 1;
+			}
+			
+			.image-item.space .image-close {
+				display: none;
+			}
+			
+			.mui-inline {
+				vertical-align: bottom;
+				font-size: 14px;
+				color: #8f8f94;
+			}
+			
+			.mui-icon-star {
+				color: #B5B5B5;
+				font-size: 22px;
+			}
+			
+			.mui-icon-star-filled {
+				color: #FFB400;
+				font-size: 22px;
+			}
+			
+			#popover {
+				height: 180px;
+			}
+			
+			.stream {
+				display: none;
+			}
+			
+			.mui-plus-stream .stream {
+				display: block;
+			}
+			
+			#message,
+			#upload_box,
+			#price_box {
+				height: 2.6em;
+			}
+			
+			#price_box {
+				display: block;
+				margin: 0 auto;
+			}
+			
+			#message {
+				display: none;
+			}
+			
+			#upload_box {
+				line-height: 2.6em;
+				text-align: center;
+				display: none;
+				background: #fff;
+			}
+			
+			#gift_img {
+				margin-top: 1em;
+				padding: 1em 1em 1em 1em;
+				background: #fff;
+				display: none;
+				width: 100%;
+			}
+			
+			#msg-sound {
+				-webkit-user-select: none !important;
+				user-select: none !important;
+			}
+			
+			#player {
+				background: #fff;
+				display: none;
+			}
+			
+			.icobtn {
+				display: none;
+				width: 100%;
+			}
+			
+			#playerProgress {
+				padding-top: 5px;
+				margin: 10px 0;
+			}
+			
+			#titlePopover {
+				width: 16em;
+				height: 280px;
+				left: 50%;
+				margin-left: -8em;
+			}
+			
+			#titlePopover .mui-popover-arrow {
+				left: 40%;
+			}
+			
+			#upload_progress {
+				top: 0;
+				position: fixed;
+				z-index: 999;
+				display: none;
+			}
+			
+			.mui-progressbar-success span {
+				background-color: #4cd964;
+			}
+			
+			#my_money {
+				color: #2AC845;
+				font-size: 14px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a href="__ROOT__/wap/Wx/user" class="mui-icon mui-icon-person mui-pull-left"></a>
+			<h1 class="mui-title">发起需求</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-progressbar mui-progressbar-success mui-padding-top-xs" id="upload_progress">
+				<span></span>
+			</div>
+			<div class="mui-margin-vertical-sm">
+				<div class="mui-inline mui-padding-horizontal-xs">类型</div>
+				<div class="mui-input-row">
+					<input id='title' name="title" type="text" placeholder="点击选择需求类别" readonly="readonly" />
+				</div>
+				<div id="titlePopover" class="mui-popover">
+					<div class="mui-popover-arrow"></div>
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								{volist name="data" id="item"}
+								<li class="mui-table-view-cell">
+									<a href="#" data-title="{$item.id}">{$item.title}</a>
+								</li>
+								{/volist}
+							</ul>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="mui-margin-top-xs mui-padding-horizontal-sm">
+				<div class="mui-row" id="voice-state">
+				</div>
+				<div class="mui-row">
+					<div class="mui-col-xs-6">
+						<button id='voice-start' class='mui-btn mui-btn-success'>开始录音</button>
+						<button id='voice-over' class='mui-btn mui-btn-danger hidden'>结束录音</button>
+					</div>
+					<div class="mui-col-xs-6">
+						<button id='play-start' class='mui-btn mui-btn-success mui-pull-right hidden'>播放</button>
+						<button id='play-over' class='mui-btn mui-btn-danger mui-pull-right hidden'>结束</button>
+					</div>
+				</div>
+			</div>
+			<div id="player" class="mui-padding-xs mui-row">
+				<div class="mui-col-xs-1">
+					<img class="icobtn" src="__CSS__/images/start.ico" id="msg-play" />
+					<img class="icobtn" src="__CSS__/images/stop-red.ico" id="msg-stop" />
+				</div>
+				<div class="mui-col-xs-11">
+					<div id="playerProgress" class="mui-progressbar">
+						<span></span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="mui-margin-vertical-sm">
+			<div class="mui-inline mui-padding-horizontal-xs">图片(最多8张)</div>
+			<div id='image-list' class="row image-list">
+				<div class="mui-padding-bottom-sm mui-text-center">
+					<button class="mui-btn mui-btn-primary" id="add_img">添加图片</button>
+				</div>
+				<div id="images"></div>
+			</div>
+		</div>
+
+		<div class="mui-margin-vertical-sm">
+			<div class="mui-inline mui-padding-horizontal-xs">内容</div>
+
+			<div class="row mui-input-row">
+				<textarea id='content' name="content" class="mui-input-clear content" placeholder="请详细描述你的需求（字数限制在150字以内）"></textarea>
+			</div>
+		</div>
+
+		<div class="mui-margin-vertical-sm">
+			<div class="mui-inline mui-padding-horizontal-xs">当前位置</div>
+			<div class="mui-input-group">
+				<div class="mui-input-row">
+					<input id="loc" type="text" class="mui-input-clear" placeholder="输入定位">
+				</div>
+			</div>
+		</div>
+
+		<div class="mui-margin-vertical-sm">
+			<div class="mui-inline mui-padding-horizontal-xs">悬赏方式</div>
+			<div class="mui-row">
+				<select class="mui-btn mui-btn-block mui-padding-horizontal-sm" name="reward" id="reward">
+					<option value="金钱悬赏" selected>金钱悬赏</option>
+				</select>
+				<h4 id="my_money" class="mui-text-center mui-margin-vertical-sm">余额：{$money}元</h4>
+				<input type="hidden" id="all_money" value="{$money}" />
+				<input type="text" name="message" id="message" placeholder="留言" />
+				<div id="price_box" class="mui-numbox" data-numbox-step='100' data-numbox-min='0' style="width: 220px;height: 50px;">
+					<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+					<input id="price" class="mui-numbox-input" type="number" />
+					<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+				</div>
+				<div id="upload_box">
+					<a id="upload">上传物品照</a>
+				</div>
+				<img src="" alt="" id="gift_img" />
+			</div>
+		</div>
+
+		<div class="mui-margin-vertical mui-padding-horizontal">
+			<div class="mui-row">
+				<button class="mui-btn mui-btn-block mui-btn-primary" data-loading-icon="mui-spinner mui-spinner-white" data-loading-text="需求正在提交" id="submit"><i class="mui-icon icon-edit">&nbsp;</i>提交需求</button>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			mui.init();
+			wx.config({
+				debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				appId: 'wxacb04a3e4ce7e251', // 必填，企业号的唯一标识，此处填写企业号corpid
+				timestamp: 1414587457, // 必填，生成签名的时间戳
+				nonceStr: 'Wm3WZYTPz0wzccnW', // 必填，生成签名的随机串
+				signature: '{$sign}', // 必填，签名，见附录1
+				jsApiList: ['chooseImage', 'uploadImage', 'previewImage', 'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+			});
+
+			//question对象保存表单提交的数据包括图片文件
+			var question = {
+				title_id: '', //问题标题
+				content: '', //问题内容
+				star: '0', //问题难度
+				reward: '金钱悬赏', //悬赏形式
+				message: '', //留言消息
+				price: '0', //悬赏金额
+				longitude: '',
+				latitude: '',
+				loc: '', //简略位置
+				poi: '', //标志建筑，地点
+				addr: '', //完整地址
+				voice: '',
+				img0: '',
+				img1: '',
+				img2: '',
+				img3: '',
+				img4: '',
+				img5: '',
+				img6: '',
+				img7: '',
+			};
+
+			var $voiceover = $("#voice-over");
+			var $voicestart = $("#voice-start");
+			var $play = $("#play-start");
+			var $over = $("#play-over");
+			var $state = $("#voice-state");
+			var $addImg = $("#add_img");
+			var voice_id = null;
+			var upload_imgs = [];
+			wx.ready(function() {
+				setTimeout(function(){
+					getNowLoc();
+				},400)
+				//开始录音按钮
+				$voicestart.on("tap", function() {
+					$state.text("正在录音...");
+					$voicestart.hide();
+					$voiceover.show();
+					$play.hide();
+					wx.startRecord();
+				});
+				//录音自己结束
+				wx.onVoiceRecordEnd({
+					// 录音时间超过一分钟没有停止的时候会执行 complete 回调
+					complete: function(res) {
+						voice_id = res.localId;
+						wx.uploadVoice({
+							localId: voice_id, // 需要上传的音频的本地ID，由stopRecord接口获得
+							isShowProgressTips: 1, // 默认为1，显示进度提示
+							success: function(res) {
+								question.voice = res.serverId; // 返回音频的服务器端ID
+								$state.text("录音结束，点击播放试听");
+								$voiceover.hide();
+								$voicestart.show();
+								$play.show();
+							}
+						});
+					}
+				});
+				//结束录音按钮
+				$voiceover.on("tap", function() {
+					wx.stopRecord({
+						success: function(res) {
+							voice_id = res.localId;
+							wx.uploadVoice({
+								localId: voice_id, // 需要上传的音频的本地ID，由stopRecord接口获得
+								isShowProgressTips: 1, // 默认为1，显示进度提示
+								success: function(res) {
+									question.voice = res.serverId; // 返回音频的服务器端ID
+									$voiceover.hide();
+									$voicestart.show();
+									$play.show();
+									$state.text("录音结束，点击播放试听");
+								}
+							});
+						}
+					});
+				});
+				//开始播放按钮
+				$play.on("tap", function() {
+					$play.hide();
+					$over.show();
+					$voicestart.hide();
+					$state.text("正在播放...");
+					wx.playVoice({
+						localId: voice_id // 需要播放的音频的本地ID，由stopRecord接口获得
+					});
+				})
+				//结束播放按钮
+				$over.on("tap", function() {
+					$over.hide();
+					$play.show();
+					$voicestart.show();
+					$state.text("已录音：点击播放试听");
+					wx.stopVoice({
+						localId: voice_id // 需要停止的音频的本地ID，由stopRecord接口获得
+					});
+				});
+				//播放自己结束
+				wx.onVoicePlayEnd({
+					success: function(res) {
+						$over.hide();
+						$play.show();
+						$voicestart.show();
+						$state.text("已录音：点击播放试听");
+						voice_id = res.localId; // 返回音频的本地ID
+					}
+				});
+
+				//点击选择图片
+				$addImg.on("tap", function() {
+					wx.chooseImage({
+						count: 8, // 默认9
+						sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+						sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+						success: function(res) {
+							//重置图片区域和清除图片media_id保存
+							$("#images").html("");
+							for(var i = 0; i <= 7; i++) {
+								question['img' + i] = "";
+							}
+							upload_imgs = res.localIds;
+
+							uploadImgs(upload_imgs.length - 1);
+						}
+					});
+				});
+			});
+
+			//递归上传图片解决js并行处理，否则会卡死
+			function uploadImgs(len) {
+				if(len < 0)
+					return;
+				var placeholder = document.createElement('div');
+				placeholder.setAttribute('class', 'image-item');
+				placeholder.style.backgroundImage = "url('" + upload_imgs[len] + "')";
+				document.getElementById("images").appendChild(placeholder);
+				wx.uploadImage({
+					localId: upload_imgs[len], // 需要上传的图片的本地ID，由chooseImage接口获得
+					isShowProgressTips: 1, // 默认为1，显示进度提示
+					success: function(res) {
+						question['img' + len] = res.serverId;
+						uploadImgs(--len);
+					}
+				});
+			}
+			wx.error(function(res) {
+				mui.toast("微信接口错误：可能版本过低，请下载更高版本，或联系客服！");
+			});
+
+			document.getElementById("title").addEventListener("tap", function() {
+				mui("#titlePopover").popover("toggle");
+			}, false);
+
+			//选择主题
+			mui('#titlePopover').on('tap', 'li', function(e) {
+				document.getElementById("title").value = this.children[0].innerText;
+				question.title_id = this.children[0].getAttribute("data-title");
+				mui('#titlePopover').popover('hide')
+			})
+
+			//提交需求
+			document.getElementById("submit").addEventListener("tap", function() {
+				load = mui("#submit");
+				//获取表单数据
+				question.content = document.getElementById("content").value;
+				question.gift_img = document.getElementById("gift_img").getAttribute("src");
+				question.reward = document.getElementById("reward").value;
+				question.message = document.getElementById("message").value;
+				question.price = formatPrice(document.getElementById("price").value);
+				//转换金额失败
+				if(question.price === false) {
+					return mui.alert("<font color='red'>请输入正确的金额</font>", "格式错误", "好的", null, "div");
+				}
+				if(question.title_id == "")
+					return mui.alert("请选择需求类别")
+				if(question.content == "")
+					return mui.alert("请填写需求内容")
+				if(question.voice == "" || !question.voice)
+					return mui.alert("请提供语音！")
+
+				//确认支付
+				mui.confirm("该需求单将会消耗您" + question.price + "元，是否提交？", "确认提交并支付", ["否", "是"], function(e) {
+					var url = "__ROOT__/wap/Wx/addQues";
+					if(e.index == 1) {
+						load.button("loading");
+						$.post(url, question, function(res) {
+							load.button("reset");
+							if(res.login == 0)
+								return alert("登录状态时效，请返回登录页面重新登录");
+							alert(res.info);
+							if(res.status == 1)
+								location.href = "__ROOT__/wap/Wx/user";
+						})
+					}
+				});
+
+			});
+
+			//获取当前位置
+			function getNowLoc() {
+				wx.getLocation({
+					type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+					success: function(res) {
+						question.latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+						question.longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+						//请求当前域名服务器获得文字地址
+						$.get("__ROOT__/wap/Wx/getAddr?lng=" + res.longitude + "&lat=" + res.latitude, function(res, status) {
+							if(res.status == 1) {
+								var addr = res.regeocode.formatted_address;
+								var loc = res.regeocode.addressComponent.township;
+								$("#loc").val(loc);
+								question.addr = addr;
+								question.loc = loc;
+							} else {
+								alert("定位失败，请手动输入当前位置");
+							}
+						});
+					}
+				});
+			}
+
+			function formatPrice(price) {
+				var price = parseFloat(price);
+				if(isNaN(price)) {
+					return false;
+				}
+				return price.toFixed(2);
+			}
+
+			function trim(str) {
+				return str.replace(/(^\s*)|(\s*$)/g, "");
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <title>发起需求单</title>
+        {load href="__CSS__/mui.min.css"}
+        {load href="__CSS__/wap/style.css"}
+        {load href="__JS__/mui.min.js"}
+        {load href="__JS__/admin/jquery.js"}
+        <style>
+            body,
+            .mui-content {
+                background: #fff;
+            }
+
+            .image {
+                width: 100%;
+                background: ;
+                height: auto;
+                margin: 1em 0;
+            }
+
+
+            .area {
+                margin: 20px auto 0px auto;
+            }
+
+            .mui-input-group:first-child {
+                margin-top: 20px;
+            }
+
+            .mui-input-group label {
+                width: 22%;
+            }
+
+            .mui-input-row label~input,
+            .mui-input-row label~select,
+            .mui-input-row label~textarea {
+                width: 78%;
+            }
+
+            .mui-checkbox input[type=checkbox],
+            .mui-radio input[type=radio] {
+                top: 6px;
+            }
+
+            .mui-content-padded {
+                margin-top: 25px;
+            }
+
+            .mui-btn {
+                padding: 10px;
+            }
+
+            .mui-input-row label~input,
+            .mui-input-row label~select,
+            .mui-input-row label~textarea {
+                margin-top: 1px;
+            }
+
+            #getCode {
+                z-index: 99;
+                position: absolute;
+                right: 0;
+                border-radius: 0;
+                height: 40px;
+            }
+            @-webkit-keyframes fadeIn {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeIn {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            @-webkit-keyframes fadeOut {
+                0% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+
+            @keyframes fadeOut {
+                0% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+
+            #agreement {
+                color: red;
+                text-decoration: underline;
+            }
+
+            #reward {
+                z-index: 9;
+                position: absolute;
+                top: 40px;
+                right: 0px;
+                text-align: center;
+                font-size: 15px;
+                padding: 10px 20px;
+                background: #CF2D28;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="mui-content" id="mui-content">
+            <article class="mui-article mui-padding-sm">
+                <div class="mui-article-hd">
+                    <h3 class="mui-article-title mui-text-center">{$ques.title}</h3>
+                    <div class="mui-article-meta mui-padding-top-xs">需求方：{$ques.user_name}</div>
+                    <h2 id="reward">悬赏<br><span>￥{$ques.price}</span></h2>
+                </div>
+
+                <div class="am-article-bd">
+                    <!--音频播放器-->
+
+                    <div id="content" class="mui-margin-top">
+                        {$ques.content}
+                    </div>
+                    <div class="imgs">
+                        {if $ques.img0} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$ques.img0}" id="img0" class="image" /> {/if}
+                        {if $ques.img1} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$ques.img1}" id="img1" class="image" /> {/if}
+                        {if $ques.img2} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$ques.img2}" id="img2" class="image" /> {/if}
+                        {if $ques.img3} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$ques.img3}" id="img3" class="image" /> {/if}
+                        {if $ques.img4} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$ques.img4}" id="img4" class="image" /> {/if}
+                        {if $ques.img5} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$ques.img5}" id="img5" class="image" /> {/if}
+                        {if $ques.img6} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$ques.img6}" id="img6" class="image" /> {/if}
+                        {if $ques.img7} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$ques.img7}" id="img7" class="image" /> {/if}
+                    </div>
+                </div>
+            </article>
+
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+                    <label>手机</label>
+                    <input id='phone' type="number" class="mui-input-clear mui-input" placeholder="输入注册时的手机号">
+                </div>
+                <button class="mui-btn mui-btn-primary" id="getCode" type="button" data-loading-text="正在发送">获得验证码</button>
+                <div class="mui-input-row">
+                    <label>验证</label>
+                    <input id='code' type="number" class="mui-input-clear mui-input" placeholder="短信验证码">
+                </div>
+                <input type="hidden" name="sid" id="share_id" value="{$sid}"/>
+            </form>
+            <div class="mui-content-padded" id="message">
+                {if $ques.state eq 0} <button id="order" value="{$ques.id}" class="mui-btn mui-btn-block mui-btn-primary" onclick="getOrder({$ques.id})">立即接单</button> {/if}
+                {if $ques.state eq 1} <button id="doing" class="mui-btn mui-btn-block mui-btn-grey">已被接单</button> {/if}
+                {if $ques.state eq 2} <button id="done" class="mui-btn mui-btn-block mui-btn-success">已完成</button> {/if}
+            </div>
+        </div>
+        <script>
+            mui.init();
+
+document.getElementById("getCode").addEventListener("tap", function() {
+    var phone = $.trim($("#phone").val());
+    var load = mui(this);
+    if(phone==""){
+        mui.toast("请输入手机号");
+        return false;
+    }
+    if(!checkPhone(phone)){
+        mui.toast("手机号格式不正确");
+        return false;
+    }
+    //请求注册号码
+    mui.ajax("__ROOT__/app/User/getCode", {
+        data: {
+            phone: phone,
+            reset: 1//越过检查已注册
+        },
+        dataType: 'json', //服务器返回json格式数据
+        type: 'post', //HTTP请求类型
+        timeout: 10000, //超时时间设置为10秒；
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        beforeSend:function(){
+            load.button("loading");
+        },
+        complete:function(){
+            load.button("reset")
+        },
+        success: function(res) {
+            mui.toast(res.info);
+        },
+        error: function(xhr, type, errorThrown) {
+            console.log(type);
+        }
+    });
+});
+
+function checkPhone(phone){ 
+    return (/^1[34578]\d{9}$/.test(phone));
+}
+
+function getOrder(qid) {
+    var load = mui("#order");
+
+    var qid = qid;
+    var sid = $.trim($("#share_id").val());
+    var code = $.trim($("#code").val());
+    if(qid=="") return alert("需求单不能为空");
+    if(sid=="") return alert("分享人不能为空");
+    if(code=="") return mui.alert("请先获取短信验证码，并填写","错误");
+
+
+
+    mui.confirm("确认接单吗？", "接单确认", ["暂且不接", "是，我要接"], function(e) {
+        if(e.index == 1) {
+            //请求注册号码
+            mui.ajax("__ROOT__/wap/Wx/addOrder", {
+                data: {
+                    qid:qid,
+                    sid:sid,
+                    code:code
+                },
+                dataType: 'json', //服务器返回json格式数据
+                type: 'post', //HTTP请求类型
+                timeout: 10000, //超时时间设置为10秒；
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                beforeSend:function(){
+                    load.button("loading");
+                },
+                complete:function(){
+                    load.button("reset")
+                },
+                success: function(res) {
+                    if(res.login == 0) {
+                        mui.toast(res.info);
+                        return app.toLogin(res.info);
+                    }
+                    if(res.status == 1) {
+                        $("#message").text(res.info);
+                    } else {
+                        mui.toast(res.info);
+                    }
+                },
+                error: function(xhr, type, errorThrown) {
+                    console.log(type);
+                }
+            });
+
+        } else {
+            mui.toast("您取消了接单！");
+            return;
+        }
+    }, "div");
+}
+        </script>
+    </body>
+</html>

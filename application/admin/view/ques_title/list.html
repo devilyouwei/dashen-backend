@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    {load href="__CSS__/ch-ui.admin.css"/}
+    {load href="__CSS__/font/css/font-awesome.min.css"/}
+    {load href="__JS__/jquery.js"/}
+    {load href="__JS__/jquery.validate.min.js"/}
+    {load href="__JS__/messages_zh.js"/}
+    {load href="__JS__/ch-ui.admin.js"/}
+</head>
+<body>
+    <!--面包屑导航 开始-->
+    <div class="crumb_warp">
+        <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
+        <i class="fa fa-home"></i> <a href="#">首页</a> &raquo; <a href="#">分类管理</a> &raquo; 浏览分类
+    </div>
+    <!--面包屑导航 结束-->
+    <!--搜索结果页面 列表 开始-->
+        <div class="result_wrap">
+            <!--快捷导航 开始-->
+            <div class="result_content">
+                <div class="short_wrap">
+                    <a href="__ROOT__/QuesTitle/add"><i class="fa fa-plus"></i>新增分类</a>
+                </div>
+            </div>
+            <!--快捷导航 结束-->
+        </div>
+        <div class="result_wrap">
+            <div class="result_content">
+                <table class="list_tab">
+                    <tr>
+                        <th class="tc">id</th>
+                        <th class="tc">分类名称</th>
+                        <th class="tc">分享分红（%）</th>
+                        <th class="tc">工作分红（%）</th>
+                        <th class="tc">最小价格</th>
+                        <th class="tc">最大价格</th>
+                        <th class="tc">更新时间</th>
+                        <th class="tc">操作</th>
+                    </tr>
+                    {foreach $list as $a}
+                    <tr>
+                        <td class="tc">1</td>
+                        <td class="tc"><{$a.title}></td>
+                        <td class="tc">
+                            <{$a.sharecent}>
+                        </td>
+                        <td class="tc"><{$a.workcent}></td>
+                        <td class="tc"><{$a.minprice}></td>
+                        <td class="tc"><{$a.maxprice}></td>
+                        <td class="tc"><{$a.updatetime}></td>
+                        <td class="tc">
+                            <a href="__ROOT__/QuesTitle/update/id/<{$a.id}>" >修改</a>
+                            <a href="__ROOT__/QuesTitle/delete/id/<{$a.id}>" onclick="return confirm('确认删除分类吗')">删除</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                </table>
+<div class="page_nav">
+</div>
+            </div>
+        </div>
+    <!--搜索结果页面 列表 结束-->
+</body>
+</html>

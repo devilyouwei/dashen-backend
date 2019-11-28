@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>呀哦服务</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		{load href="__CSS__/mui.min.css"} {load href="__CSS__/wap/style.css"} {load href="__JS__/admin/jquery.js"} {load href="__JS__/mui.min.js"} {load href="__JS__/vue.min.js"} {load href="__JS__/app.js"}
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">历史发单</h1>
+		</header>
+		<div class="mui-content">
+			<div class="cards">
+				<p class="mui-content-padded">我的历史发单</p>
+				{volist name="data" id="item"}
+				<div class="mui-card">
+					<div class="mui-card-header mui-card-media">
+						<img src="{$item.my_icon_sm}" onerror="this.src='__CSS__/images/my_icon.jpg'" />
+						<div class="mui-media-body">
+							发单方：{$item.user_name}
+							<p>{$item.create_time}</p>
+							<p>服务编号：{$item.format_id}</p>
+						</div>
+					</div>
+					<div class="mui-card-content">
+						<div class="mui-card-content-inner">
+							<p>需求类别：{$item.title}</p>
+							<p style="color: #333;">概述：{$item.content}</p>
+							{if $item.loc}
+							<p><i class="mui-icon mui-icon-location-filled">&nbsp;</i>{$item.loc}</p>
+							{/if}
+						</div>
+					</div>
+					<div class="mui-card-footer">
+						<span class="price" href="#">悬赏<span>：￥{$item.price}</span></span>
+						<a href="__ROOT__/wap/Wx/detail/id/{$item.id}" class="mui-card-link">查看详情</a>
+					</div>
+				</div>
+				{/volist}
+			</div>
+		</div>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>

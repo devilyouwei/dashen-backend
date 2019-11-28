@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    {load href="__CSS__/ch-ui.admin.css"/}
+    {load href="__CSS__/font/css/font-awesome.min.css"/}
+    {load href="__JS__/jquery.js"/}
+    {load href="__JS__/jquery.validate.min.js"/}
+    {load href="__JS__/messages_zh.js"/}
+    {load href="__JS__/ch-ui.admin.js"/}
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--面包屑导航 开始-->
+<div class="crumb_warp">
+    <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
+    <i class="fa fa-home"></i> <a href="#">首页</a> &raquo; <a href="#">分类管理</a> &raquo; 浏览分类
+</div>
+<!--面包屑导航 结束-->
+<!--搜索结果页面 列表 开始-->
+<div class="search_wrap">
+    <form action="__ROOT__/Withdraw/search" method="post">
+        <table class="search_tab">
+            <tr>
+                <th width="70">关键字:</th>
+                <td><input type="text" name="name" placeholder="关键字"/></td>
+                <td>
+                    <select name="state">
+                        <option value="-1"
+
+                        >被拒绝</option>
+                        <option value="0"
+
+                        >待处理</option>
+                        <option value="1"
+
+                        >已通过</option>
+                    </select>
+                </td>
+                <td><input type="submit" name="sub" value="查询" style="text-align: center; height: auto"/><br></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!--结果页快捷搜索框 结束-->
+<div class="result_wrap">
+    <!--快捷导航 开始-->
+
+    <!--快捷导航 结束-->
+</div>
+<div class="result_wrap">
+    <div class="result_content">
+        <table class="list_tab">
+            <tr>
+                <th class="tc">申请编号id</th>
+                <th class="tc">手机</th>
+                <th>提现类型</th>
+                <th>提现账户</th>
+                <th>账户姓名</th>
+                <th>提现金额</th>
+                <th>日期</th>
+                <th>申请状态</th>
+                <th>操作</th>
+            </tr>
+            {foreach $list as $a}
+            <tr>
+                <td class="tc"><{$a.id}></td>
+                <td class="tc"><{$a.phone}></td>
+                <td><{$a.withtype}></td>
+                <td><{$a.phone}></td>
+                <td><{$a.real_name}></td>
+                <td><{$a.withdrawmoney}></td>
+                <td><{$a.updatetime}></td>
+                <td>
+                    {if condition="$a.state eq -1"}
+                    被拒绝
+                    {elseif condition="$a.state eq 0"/}
+                    待处理
+                    {elseif condition="$a.state eq 1"/}
+                    已通过
+                    {else/}
+                    {/if}
+
+                </td>
+                <td>
+                    <a href=""></a>
+                    <!--<a href="javascript:0" data-toggle="modal" data-target="#<{$a.id}>">查看</a>-->
+                    {if condition="$a.state eq 0"}
+                    <a href="__ROOT__/Withdraw/pass/id/<{$a.id}>">通过</a>
+                    <a href="__ROOT__/Withdraw/refuse/id/<{$a.id}>">拒绝</a>
+                    {/if}
+                </td>
+            </tr>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="<{$a.id}>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4></h4>
+
+                            <br>
+                            <img src="" width="200px"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+                {/foreach}
+        </table>
+        <div class="page_list">
+            <{$list->render()}>
+        </div>
+    </div>
+</div>
+<!--搜索结果页面 列表 结束-->
+</body>
+</html>

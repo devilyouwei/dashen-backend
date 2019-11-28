@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>需求详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" /> {load href="__CSS__/mui.min.css"} {load href="__CSS__/wap/style.css"} {load href="__JS__/admin/jquery.js"} {load href="__JS__/mui.min.js"} {load href="__JS__/vue.min.js"} {load href="__JS__/app.js"}
+		<style type="text/css">
+			body,
+			.mui-content {
+				background: #fff;
+			}
+			
+			.mui-article {
+				width: 100%;
+				word-break: break-all;
+			}
+			
+			.mui-table-view-cell {
+				-webkit-user-select: text;
+			}
+			
+			.show_price {
+				color: red;
+			}
+			
+			.image {
+				width: 100%;
+				background: ;
+				height: auto;
+				margin: 1em 0;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			.icon-star {
+				color: #FFB400;
+			}
+			
+			#player {
+				margin-top: 20px;
+				background: #fff;
+				border: solid 2px #ccc;
+				border-radius: 3px;
+			}
+			
+			.icobtn {
+				display: none;
+				width: 100%;
+			}
+			
+			#playerProgress {
+				padding-top: 5px;
+				margin: 10px 0;
+			}
+			
+			#order,
+			#doing,
+			#done {
+				position: fixed;
+				display: none;
+				bottom: 0;
+				width: 100%;
+				margin-bottom: 0px;
+				border-radius: 0;
+			}
+			
+			#agreement {
+				color: red;
+				text-decoration: underline;
+			}
+			
+			#reward {
+				z-index: 9;
+				position: absolute;
+				top: 60px;
+				right: 0px;
+				display: none;
+				text-align: center;
+				font-size: 20px;
+				padding: 10px 10px;
+				background: #CF2D28;
+				color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">需求详细</h1>
+		</header>
+		<div class="mui-content" id="mui-content">
+			<article class="mui-article mui-padding-sm mui-margin-bottom-lg">
+				<div class="mui-article-hd">
+					<h3 class="mui-article-title mui-text-center">{$data.title}</h3>
+					<div class="mui-article-meta mui-padding-top-xs">服务编号：{$data.format_id}</div>
+					<div class="mui-article-meta mui-padding-top-xs">发布时间：{$data.create_time}</div>
+					<div class="mui-article-meta mui-padding-top-xs">需求方：{$data.user_name}</div>
+					<div class="mui-article-meta mui-padding-top-xs">悬赏：{$data.price}元</div>
+					<div id="state" class="mui-article-meta mui-padding-top-xs">
+						需求状态： {switch $data.state} {case value='0'}等待接单{/case} {case value='1'}进行中{/case} {case value='2'}已完成{/case} {/switch}
+					</div>
+				</div>
+				<div class="am-article-bd">
+					{if $data.voice}
+					<!--音频播放器-->
+					<div id="player" class="mui-padding-xs mui-row">
+						<audio src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$data.voice}" controls="controls">
+						</audio>
+					</div>
+					{/if}
+
+					<div id="content" class="mui-margin-top">
+						{$data.content}
+					</div>
+					<div class="imgs">
+						{if $data.img0} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$data.img0}" id="img0" class="image" /> {/if} {if $data.img1} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$data.img1}" id="img1" class="image" /> {/if} {if $data.img2} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$data.img2}" id="img2" class="image" /> {/if} {if $data.img3} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$data.img3}" id="img3" class="image" /> {/if} {if $data.img4} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$data.img4}" id="img4" class="image" /> {/if} {if $data.img5} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$data.img5}" id="img5" class="image" /> {/if} {if $data.img6} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$data.img6}" id="img6" class="image" /> {/if} {if $data.img7} <img src="http://zhongbang.oss-cn-beijing.aliyuncs.com/{$data.img7}" id="img7" class="image" /> {/if}
+					</div>
+				</div>
+			</article>
+		</div>
+
+		{if $data.state eq 0}
+		<div class="mui-content-padded">
+			<button class="mui-btn mui-btn-block mui-btn-default">待接单</button>
+		</div>
+		{/if}
+		{if $data.state neq 0}
+		<div class="picker-box mui-content-padded">
+			<h5>接单人：{$pick.user_name}</h5>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-left" src="{$pick.my_icon_sm}">
+						<div class="mui-media-body">
+							<h3> {$pick.user_name} <button class="mui-btn mui-btn-primary mui-pull-right">显示路线</button></h3>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">身份：{$pick.actor}</li>
+				<li class="mui-table-view-cell">姓名：{$pick.real_name}</li>
+				<li class="mui-table-view-cell">手机：{$pick.phone}</li>
+				<li class="mui-table-view-cell">邮箱：{$pick.email}</li>
+				<li class="mui-table-view-cell">微信：{$pick.weixin}</li>
+				<li class="mui-table-view-cell">QQ：{$pick.qq}</li>
+			</ul>
+			<h3 class="mui-text-center show_price mui-padding-sm">{$data.price}元</h3> 
+			{switch $data.state} 
+			{case value='1'}
+			<button id="confirm" class="mui-btn mui-btn-block mui-btn-success">确认对方完成</button>
+			<button id="hidden" class="mui-btn mui-btn-block mui-btn-grey">订单已结束</button>
+			<input type="hidden" value="{$data.id}" id="qid" />
+			{/case}
+			{case value='2'}
+			<button class="mui-btn mui-btn-block mui-btn-grey">订单已结束</button>
+			{/case}
+			{/switch}
+		</div>
+		{/if}
+		<script type="text/javascript">
+			mui.init();
+			$("#hidden").hide();
+			$("#confirm").on("tap", function() {
+				mui.confirm("请确认接单方已经完成您的需求\n确认后接单方将立即获得您的赏金！", "确认完成需求", ["取消", "确认，已完成"], function(e) {
+					var qid = $("#qid").val();
+					if(e.index == 1)
+						$.post("__ROOT__/app/QuesOrder/confirmOrder", {
+							id: qid
+						}, function(res) {
+							if(res.login == 0) {
+								alert("长久未操作，登录状态失效！请先返回登录");
+							}
+							if(res.status == 1) {
+								$("#confirm").hide();
+								$("#hidden").show();
+								$("#state").text("订单状态：已完成");
+							}
+							mui.toast(res.info);
+						});
+				});
+			});
+		</script>
+	</body>
+
+</html>
